@@ -1,2 +1,4 @@
 Aula de GIT
 -> Branch: Desenvolvimento
+
+Commit pelo VSCode
