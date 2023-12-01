@@ -9,7 +9,7 @@ public class Hotel {
     private Quarto quarto;
 
     public void informacao() {
-        System.out.printf("O Hotel tem %s estrelas.\n",qtdEstrelas.getDescricao());
+        System.out.printf("Hotel %s no endereço %s tem %s estrelas.\n",nome, endereco, qtdEstrelas.getDescricao());
     }
 
     public String getNome(){

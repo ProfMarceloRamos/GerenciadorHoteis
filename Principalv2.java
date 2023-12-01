@@ -1,6 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principalv2 {
+
+    private QuadroHoteis quadroHoteis = new QuadroHoteis();
+    private List<Hotel> hoteis = new ArrayList<Hotel>();
     
     public static void main(String[] args) {
         
@@ -12,10 +17,10 @@ public class Principalv2 {
         do {
             int op = p.imprimirMenu(s);
             if(op == 99){
-                opDesejada = p.opcaoEscolhida(op);
+                opDesejada = p.opcaoEscolhida(op, s);
                 opDesejada = false;
             } else {
-                opDesejada = p.opcaoEscolhida(op);
+                opDesejada = p.opcaoEscolhida(op, s);
             }
         } while (opDesejada);
 
@@ -36,11 +41,11 @@ public class Principalv2 {
         return opcao;
     }
 
-    public boolean opcaoEscolhida(int opcao){
+    public boolean opcaoEscolhida(int opcao, Scanner s){
         boolean opcaoCorreta = true;
         switch(opcao){
             case 1:
-                System.out.println("Cadastrar hotel");
+                cadastrarQuadroHoteis(s);
                 break;
             case 2:
                 System.out.println("Cadastrar Quarto");
@@ -49,7 +54,7 @@ public class Principalv2 {
                 System.out.println("Cadastrar Hóspede");
                 break;
             case 4:
-                System.out.println("Listar Hoteis");
+                listarHoteis();
                 break;
             case 99:
                 System.out.println("Volte sempre!!");
@@ -63,24 +68,82 @@ public class Principalv2 {
 
     }
 
-    public void cadastrarHotel(){
-        // Hotel h = new Hotel("Hotel Mar Aberto", EstrelasEnum.ESTRELA3);
+    public void listarHoteis(){
+
+        if(!quadroHoteis.getListaHoteis().isEmpty()){
+            for(Hotel h : quadroHoteis.getListaHoteis()){
+    
+                h.informacao();
+    
+            }
+        } else {
+            System.out.println("Não foram encontrados hoteis!");
+        }
+
+    }
+
+    public void cadastrarHotel(Scanner s){
+        System.out.println("Cadastrar Hotel");
+
+        s.nextLine();
+
+        System.out.print("Digite o nome do Hotel: ");
+        String nomeHotel = s.nextLine();
+
+        System.out.println("Digite o endereço do Hotel: ");
+        String enderecoHotel = s.nextLine();
+
+        EstrelasEnum e = EstrelasEnum.ESTRELA4;
+        e.listar();
+
+        System.out.println("Digite o código da estrela do Hotel: ");
+        int codEstrela = s.nextInt();
+
+        EstrelasEnum estrelaHotel = e.retornaEstrelaEnum(codEstrela);
+
+        if(estrelaHotel != null){
+            Hotel h = new Hotel();
+            h.setNome(nomeHotel);
+            h.setEndereco(enderecoHotel);
+            h.setQtdEstrelas(estrelaHotel);
+
+            hoteis.add(h);
+
+            quadroHoteis.setListaHoteis(hoteis);
+        } else {
+            System.out.println("O código da estrela informada não existe!");
+        }
     }
 
     public void cadastrarAlbergue(){
-        // Albergue a = new Albergue();
-        // a.setNome("Tupiniquim");
-        // a.setQtdEstrelas(EstrelasEnum.ESTRELA1);
-        // a.setNomeBar("Bar do Albergue");
-        // a.setEndereco("Rua dos Albergues, 70");
+        Albergue a = new Albergue();
+        a.setNome("Tupiniquim");
+        a.setQtdEstrelas(EstrelasEnum.ESTRELA1);
+        a.setNomeBar("Bar do Albergue");
+        a.setEndereco("Rua dos Albergues, 70");
+
+        hoteis.add(a);
+        quadroHoteis.setListaHoteis(hoteis);
     }
 
-    public void cadastrarQuadroHoteis(){
-        // se(hotel){
-        //     cadastrarHotel();
-        // } else if(alberque){
-        //     cadastrarAlbergue();
-        // }
+    public void cadastrarQuadroHoteis(Scanner s){
+
+        System.out.println("Tipos de Hotelaria");
+        System.out.println("1 - Hotel");
+        System.out.println("2 - Albergue");
+        System.out.println("Digite o código: ");
+        int cod = s.nextInt();
+
+        switch (cod) {
+            case 1:
+                cadastrarHotel(s);
+                break;
+            case 2:
+                cadastrarAlbergue();
+                break;
+            default:
+                System.out.println("Código de hotelária errado!!");
+        }
     }
 
 }
